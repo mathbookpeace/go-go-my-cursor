@@ -1,0 +1,55 @@
+{
+  "name": "go-go-my-cursor",
+  "displayName": "Go Go My Cursor",
+  "description": "Move your cursor faster",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.46.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:go-go-my-cursor.gotoline",
+    "onCommand:go-go-my-cursor.gotoleft",
+    "onCommand:go-go-my-cursor.gotoright"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "go-go-my-cursor.gotoline",
+        "title": "GOGO: Goto Line"
+      },
+      {
+        "command": "go-go-my-cursor.gotoleft",
+        "title": "GOGO: Goto Left"
+      },
+      {
+        "command": "go-go-my-cursor.gotoright",
+        "title": "GOGO: Goto Right"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.46.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "eslint": "^7.19.0",
+    "glob": "^7.1.6",
+    "mocha": "^8.2.1",
+    "typescript": "^4.1.3",
+    "vscode-test": "^1.5.0"
+  }
+}
