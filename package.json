@@ -3,6 +3,7 @@
   "displayName": "Go Go My Cursor",
   "description": "Move your cursor faster",
   "version": "0.0.1",
+  "icon": "icon.png",
   "publisher": "mathbookpeace",
   "repository": {
     "type": "git",
