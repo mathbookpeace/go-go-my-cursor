@@ -3,6 +3,11 @@
   "displayName": "Go Go My Cursor",
   "description": "Move your cursor faster",
   "version": "0.0.1",
+  "publisher": "mathbookpeace",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mathbookpeace/go-go-my-cursor.git"
+  },
   "engines": {
     "vscode": "^1.46.0"
   },
