@@ -156,13 +156,11 @@ function build_kmp_tb(s: string) : Array<number>
 	let match_i = 0;
 	for (let i = 1; i < s.length; ++i)
 	{
+		while (match_i > 0 && s[i] != s[match_i]) {
+			match_i = tb[match_i];
+		}
 		if (s[i] == s[match_i]) {
 			++match_i;
-			if (i + 1 < tb.length) {
-				tb[i + 1] = match_i;
-			}
-		} else {
-			match_i = s[i] == s[0] ? 1 : 0;
 			if (i + 1 < tb.length) {
 				tb[i + 1] = match_i;
 			}
