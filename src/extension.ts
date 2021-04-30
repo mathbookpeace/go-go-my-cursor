@@ -47,11 +47,12 @@ function cmd_gotoleft()
 		
 		let edi = vscode.window.activeTextEditor;
 		if (!edi) { return; }
+		tar = tar.toLowerCase();
 		let kmp_tb = build_kmp_tb(tar);
 		
 		let pos = edi.selection.active;
 		
-		let s = edi.document.lineAt(pos.line).text;
+		let s = edi.document.lineAt(pos.line).text.toLowerCase();
 		if (s.length > 0 && pos.character > 0) {
 			let found_i = search_str_backward(s, pos.character - 1, tar, kmp_tb);
 			if (found_i != -1) {
@@ -79,11 +80,12 @@ function cmd_gotoright()
 		if (!tar) { return; }
 		let edi = vscode.window.activeTextEditor;
 		if (!edi) { return; }
+		tar = tar.toLowerCase();
 		let kmp_tb = build_kmp_tb(tar);
 		
 		let pos = edi.selection.active;
 		
-		let s = edi.document.lineAt(pos.line).text;
+		let s = edi.document.lineAt(pos.line).text.toLowerCase();
 		if (s.length > 0) {
 			let found_i = search_str(s, pos.character+1, tar, kmp_tb);
 			if (found_i != -1) {
