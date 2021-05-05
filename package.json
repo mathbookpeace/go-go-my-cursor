@@ -2,7 +2,7 @@
   "name": "go-go-my-cursor",
   "displayName": "Go Go My Cursor",
   "description": "Move your cursor faster",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "icon": "icon.png",
   "publisher": "mathbookpeace",
   "repository": {
