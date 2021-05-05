@@ -7,18 +7,20 @@ This extension helps you move your cursor faster.
 ```
 cmd: go-go-my-cursor.gogo  
 recommended shortcut: Ctrl+G
-```
+
 This cmd will move your cursor according to your input:
-input | example | behavior for the example
-- | - | -
-line | 11 | jump to the end of line 11
-word | hello | jump to first "hello" in current line
-line word | 11 hello | jump to first "hello" in line 11
-l word | l hello | jump to first "hello" in current line
-r word | r hello | jump to last "hello" in current line
-line word | 11 hello | jump to first "hello" in line 11
+input       | example    | behavior for the example
+----------------------------------------------
+line        | 11         | jump to the end of line 11
+word        | hello      | jump to first "hello" in current line
+line word   | 11 hello   | jump to first "hello" in line 11
+l word      | l hello    | jump to first "hello" in current line
+r word      | r hello    | jump to last "hello" in current line
+line word   | 11 hello   | jump to first "hello" in line 11
 line l word | 11 l hello | jump to first "hello" in line 11
 line r word | 11 r hello | jump to last "hello" in line 11
+```
+
 
 
 ## GOGO: Goto Line
