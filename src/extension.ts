@@ -4,6 +4,12 @@ import * as vscode from 'vscode';
 export function activate(context: vscode.ExtensionContext) {
 	
 	context.subscriptions.push(
+		vscode.commands.registerCommand('go-go-my-cursor.gogo', () => {
+			cmd_gogo();
+		})
+	);
+	
+	context.subscriptions.push(
 		vscode.commands.registerCommand('go-go-my-cursor.gotoline', () => {
 			cmd_gotoline();
 		})
@@ -25,17 +31,107 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() { }
 
 
+function cmd_gogo()
+{
+	vscode.window.showInputBox().then(cmd => {
+		if (!cmd) { return; }
+		let edi = vscode.window.activeTextEditor;
+		if (!edi) { return; }
+		
+		let tokens = cmd.split(" ");
+		if (tokens.length == 1) {
+			if (is_number(tokens[0])) {
+				move_cursor_to_line_end(edi, Number(tokens[0]));
+			} else {
+				let line = edi.selection.active.line;
+				let word = tokens[0];
+				goto_line_and_word(edi, line, word, "l");
+			}
+		} else if (tokens.length == 2) {
+			if (is_number(tokens[0])) {
+				let line = Number(tokens[0]) - 1;
+				let word = tokens[1];
+				goto_line_and_word(edi, line, word, "l");
+			} else {
+				let line = edi.selection.active.line;
+				let dir = tokens[0];
+				let word = tokens[1];
+				goto_line_and_word(edi, line, word, dir);
+			}
+		} else if (tokens.length == 3) {
+			let line = Number(tokens[0]) - 1;
+			let dir = tokens[1];
+			let word = tokens[2];
+			goto_line_and_word(edi, line, word, dir);
+		}
+	});
+}
+
+function is_number(s: string) : boolean
+{
+	for (let i = 0; i < s.length; ++i) {
+		if (s[i] < '0' || s[i] > '9') {
+			return false;
+		}
+	}
+	return true;
+}
+
+
+function goto_line_and_word(edi: vscode.TextEditor, line: number, word: string, dir: string)
+{
+	if (dir == "r") {
+		goto_line_and_word_right(edi, line, word);
+	} else {
+		goto_line_and_word_left(edi, line, word);
+	}
+}
+
+
+function goto_line_and_word_left(edi: vscode.TextEditor, line: number, word: string)
+{
+	let kmp_tb = build_kmp_tb(word);
+	
+	let s = edi.document.lineAt(line).text.toLowerCase();
+	if (s.length > 0) {
+		let found_i = search_str(s, 0, word, kmp_tb);
+		if (found_i != -1) {
+			move_cursor(edi, line, found_i-word.length+1);
+		} else {
+			move_cursor(edi, line, s.length - 1);
+		}
+	} else {
+		move_cursor(edi, line, 0);
+	}
+}
+
+function goto_line_and_word_right(edi: vscode.TextEditor, line: number, word: string)
+{
+	word = word.split("").reverse().join("");
+	let kmp_tb = build_kmp_tb(word);
+	
+	let s = edi.document.lineAt(line).text.toLowerCase();
+	if (s.length > 0) {
+		let found_i = search_str_backward(s, s.length-1, word, kmp_tb);
+		if (found_i != -1) {
+			move_cursor(edi, line, found_i);
+		} else {
+			move_cursor(edi, line, s.length - 1);
+		}
+	} else {
+		move_cursor(edi, line, 0);
+	}
+}
+
+
 function cmd_gotoline()
 {
 	vscode.window.showInputBox().then(line => {
 		if (!line) { return; }
-		let editor = vscode.window.activeTextEditor;
-		if (!editor) { return; }
+		let edi = vscode.window.activeTextEditor;
+		if (!edi) { return; }
 		
-		let number = Math.max(0, Math.min(Number(line) - 1, editor.document.lineCount-1));
-		let range = editor.document.lineAt(number).range;
-		editor.selection = new vscode.Selection(range.end, range.end);
-		editor.revealRange(range);
+		move_cursor_to_line_end(edi, Number(line));
 	});
 }
 
@@ -110,9 +206,18 @@ function cmd_gotoright()
 
 function move_cursor(edi: vscode.TextEditor, line: number, idx: number)
 {
+	line = Math.max(0, Math.min(line, edi.document.lineCount-1));
 	let tar_pos = new vscode.Position(line, idx);
 	let range = new vscode.Range(tar_pos, tar_pos);
 	edi.selection = new vscode.Selection(tar_pos, tar_pos);
+	edi.revealRange(range);
+}
+
+function move_cursor_to_line_end(edi: vscode.TextEditor, line: number)
+{
+	let number = Math.max(0, Math.min(line - 1, edi.document.lineCount-1));
+	let range = edi.document.lineAt(number).range;
+	edi.selection = new vscode.Selection(range.end, range.end);
 	edi.revealRange(range);
 }
 

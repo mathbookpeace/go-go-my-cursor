@@ -16,6 +16,7 @@
     "Other"
   ],
   "activationEvents": [
+    "onCommand:go-go-my-cursor.gogo",
     "onCommand:go-go-my-cursor.gotoline",
     "onCommand:go-go-my-cursor.gotoleft",
     "onCommand:go-go-my-cursor.gotoright"
@@ -23,6 +24,10 @@
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
+      {
+        "command": "go-go-my-cursor.gogo",
+        "title": "GOGO: GoGo"
+      },
       {
         "command": "go-go-my-cursor.gotoline",
         "title": "GOGO: Goto Line"
