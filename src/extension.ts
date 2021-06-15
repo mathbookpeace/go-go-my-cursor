@@ -44,24 +44,24 @@ function cmd_gogo()
 				move_cursor_to_line_end(edi, Number(tokens[0]));
 			} else {
 				let line = edi.selection.active.line;
-				let word = tokens[0];
+				let word = tokens[0].toLowerCase();
 				goto_line_and_word(edi, line, word, "l");
 			}
 		} else if (tokens.length == 2) {
 			if (is_number(tokens[0])) {
 				let line = Number(tokens[0]) - 1;
-				let word = tokens[1];
+				let word = tokens[1].toLowerCase();
 				goto_line_and_word(edi, line, word, "l");
 			} else {
 				let line = edi.selection.active.line;
 				let dir = tokens[0];
-				let word = tokens[1];
+				let word = tokens[1].toLowerCase();
 				goto_line_and_word(edi, line, word, dir);
 			}
 		} else if (tokens.length == 3) {
 			let line = Number(tokens[0]) - 1;
 			let dir = tokens[1];
-			let word = tokens[2];
+			let word = tokens[2].toLowerCase();
 			goto_line_and_word(edi, line, word, dir);
 		}
 	});
