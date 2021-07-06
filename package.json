@@ -1,8 +1,8 @@
 {
   "name": "go-go-my-cursor",
-  "displayName": "Go Go My Cursor",
+  "displayName": "Go Go My Cursor (A better goto command)",
   "description": "Move your cursor faster",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "icon": "icon.png",
   "publisher": "mathbookpeace",
   "repository": {
