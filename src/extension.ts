@@ -26,6 +26,18 @@ export function activate(context: vscode.ExtensionContext) {
 			cmdGotoRight();
 		})
 	);
+	
+	context.subscriptions.push(
+		vscode.commands.registerCommand('go-go-my-cursor.gotoleftbracketouter', () => {
+			cmdGotoLeftBracketOuter();
+		})
+	);
+	
+	context.subscriptions.push(
+		vscode.commands.registerCommand('go-go-my-cursor.gotorightbracketouter', () => {
+			cmdGotoRightBracketOuter();
+		})
+	);
 }
 
 export function deactivate() { }
@@ -204,6 +216,79 @@ function cmdGotoRight()
 	});
 }
 
+enum PosDirection {
+	left, right
+}
+
+function cmdGotoLeftBracketOuter() {
+	GotoBracketOuter(PosDirection.left);
+}
+
+function cmdGotoRightBracketOuter() {
+	GotoBracketOuter(PosDirection.right);
+}
+
+function GotoBracketOuter(direction: PosDirection) {
+	let edi = vscode.window.activeTextEditor;
+	if (!edi) { return; }
+	let pos = edi.selection.active;
+	if (direction === PosDirection.left) {
+		pos = mvPos(direction, pos, edi)[1];
+	}
+	let tars = new Set<string>();
+	tars.add("'").add("\"").add("{").add("}").add("(").add(")").add("<").add(">").add("[").add("]");
+	
+	while (true) {
+		let ch = edi.document.lineAt(pos.line).text.charAt(pos.character);
+		if (tars.has(ch)) break;
+		
+		let [is_change, new_pos] = mvPos(direction, pos, edi);
+		if (!is_change) return;
+		pos = new_pos;
+	}
+	if (direction === PosDirection.right) {
+		pos = mvPos(direction, pos, edi)[1];
+	}
+	moveCursor(edi, pos.line, pos.character);
+}
+
+
+function mvPos(direction: PosDirection, pos: vscode.Position, edi: vscode.TextEditor): [boolean, vscode.Position] {
+	let new_pos;
+	if (direction === PosDirection.left) {
+		new_pos = mvPosLeft(pos, edi);
+	} else {
+		new_pos = mvPosRight(pos, edi);
+	}
+	let is_change = pos.line != new_pos.line || pos.character != new_pos.character;
+	return [is_change, new_pos];
+}
+
+function mvPosRight(pos: vscode.Position, edi: vscode.TextEditor) : vscode.Position {
+	let line_end = edi.document.lineAt(pos.line).range.end;
+	if (pos.line === line_end.line && pos.character === line_end.character) {
+		if (pos.line < edi.document.lineCount - 1) {
+			return new vscode.Position(pos.line + 1, 0);
+		} else {
+			return pos;
+		}
+	} else {
+		return new vscode.Position(pos.line, pos.character + 1);
+	}
+}
+
+function mvPosLeft(pos: vscode.Position, edi: vscode.TextEditor) : vscode.Position {
+	if (pos.character === 0) {
+		if (pos.line > 0) {
+			return edi.document.lineAt(pos.line-1).range.end;
+		} else {
+			return pos;
+		}
+	} else {
+		return new vscode.Position(pos.line, pos.character - 1);
+	}
+}
+
 function moveCursor(edi: vscode.TextEditor, line: number, idx: number)
 {
 	line = Math.max(0, Math.min(line, edi.document.lineCount-1));
@@ -275,3 +360,4 @@ function buildKmpTb(s: string) : Array<number>
 	}
 	return tb;
 }
+

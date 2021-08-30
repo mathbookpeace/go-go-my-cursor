@@ -39,7 +39,6 @@ You can bind "go-go-my-cursor.gotoline" to your Ctrl+G shortcut to replace the o
 ## GOGO: Goto Left
 ```
 cmd: go-go-my-cursor.gotoleft  
-recommended shortcut: Alt+[
     
 Search from current cursor position - 1 to the begining of the file,  
 and go to the first matched word.  
@@ -62,8 +61,6 @@ qbaa|baabaa
 ```
 cmd: go-go-my-cursor.gotoright  
 
-recommended shortcut: Alt+]
-
 Search from current cursor position + 1 to the end of the file,  
 and go to the first matched word.  
 
@@ -76,4 +73,33 @@ Now if you use this cmd to search for word "baa", your cursor will move to here
 qbaabaa|baa  
        ^
 because this cmd will search the word from (cursor pos + 1);
+```
+
+
+## GOGO: Goto Left Bracket Outer
+## GOGO: Goto Right Bracket Outer
+```
+cmd: go-go-my-cursor.gotoleftbracketouter
+cmd: go-go-my-cursor.gotorightbracketouter
+
+recommended shortcut: Alt+[
+recommended shortcut: Alt+]
+
+Move the cursor to the position after the bracket.
+Currently, this extension takes these chars as brackets: '"\{}()<>[]
+
+For example,
+aa{b|b}cc
+    ^
+  your cursor is here
+  
+If you use the left command,
+aa|{bb}cc
+  ^
+  your cursor will go to here
+
+If you use the right command,
+aa{bb}|cc
+      ^
+  your cursor will go to here
 ```

@@ -2,7 +2,7 @@
   "name": "go-go-my-cursor",
   "displayName": "Go Go My Cursor (A better goto command)",
   "description": "Move your cursor faster",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "icon": "icon.png",
   "publisher": "mathbookpeace",
   "repository": {
@@ -19,7 +19,9 @@
     "onCommand:go-go-my-cursor.gogo",
     "onCommand:go-go-my-cursor.gotoline",
     "onCommand:go-go-my-cursor.gotoleft",
-    "onCommand:go-go-my-cursor.gotoright"
+    "onCommand:go-go-my-cursor.gotoright",
+    "onCommand:go-go-my-cursor.gotoleftbracketouter",
+    "onCommand:go-go-my-cursor.gotorightbracketouter"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -39,6 +41,14 @@
       {
         "command": "go-go-my-cursor.gotoright",
         "title": "GOGO: Goto Right"
+      },
+      {
+        "command": "go-go-my-cursor.gotoleftbracketouter",
+        "title": "GOGO: Goto Left Bracket Outer"
+      },
+      {
+        "command": "go-go-my-cursor.gotorightbracketouter",
+        "title": "GOGO: Goto Right Bracket Outer"
       }
     ]
   },
