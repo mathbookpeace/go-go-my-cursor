@@ -40,7 +40,7 @@ You can bind "go-go-my-cursor.gotoline" to your Ctrl+G shortcut to replace the o
 ```
 cmd: go-go-my-cursor.gotoleft  
     
-Search from current cursor position - 1 to the begining of the file,  
+Search from current cursor position - 1 to the beginning of the file,  
 and go to the first matched word.  
 
 For example,
